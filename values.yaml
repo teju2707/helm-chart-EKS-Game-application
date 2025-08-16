@@ -1,0 +1,37 @@
+replicaCount: 2
+
+image:
+  repository: 935598635277.dkr.ecr.us-east-1.amazonaws.com/jenkins/game-application
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+env:
+  ENV: production
+  PORT: "5000"
+
+livenessProbe:
+  path: /health
+  port: 5000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  path: /health
+  port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+namespace: default # or "web-apps"

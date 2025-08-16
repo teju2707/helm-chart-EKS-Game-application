@@ -1,0 +1,5 @@
+apiVersion: v2
+name: game-application
+description: A Helm chart for Game-Application
+version: 0.1.0
+appVersion: "1.0.0"
