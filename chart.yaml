@@ -1,5 +1,5 @@
 apiVersion: v2
-name: game-application
-description: A Helm chart for Game-Application
+name: helm-chart-eks-game-application
+description: A Helm chart for deploying Game Application on EKS
 version: 0.1.0
 appVersion: "1.0.0"

@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "game-application.fullname" . }}
+  name: {{ include "helm-chart-eks-game-application.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "game-application.name" . }}
+    app.kubernetes.io/name: {{ include "helm-chart-eks-game-application.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "game-application.name" . }}
+      app.kubernetes.io/name: {{ include "helm-chart-eks-game-application.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "game-application.name" . }}
+        app.kubernetes.io/name: {{ include "helm-chart-eks-game-application.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      serviceAccountName: {{ include "game-application.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -26,9 +25,9 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           env:
             - name: ENV
-              value: {{ .Values.env.ENV }}
+              value: "{{ .Values.env.ENV }}"
             - name: PORT
-              value: {{ .Values.env.PORT }}
+              value: "{{ .Values.env.PORT }}"
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.path }}
@@ -42,9 +41,9 @@ spec:
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           resources:
-            limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
             requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
